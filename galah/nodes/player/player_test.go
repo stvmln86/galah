@@ -28,5 +28,5 @@ func TestWall(t *testing.T) {
 
 	// success
 	okay := plyr.Wall()
-	assert.False(t, okay)
+	assert.True(t, okay)
 }

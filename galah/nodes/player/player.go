@@ -22,5 +22,5 @@ func (n *Player) Flag() flag.Flag {
 
 // Wall returns true if the Player cannot be moved through.
 func (n *Player) Wall() bool {
-	return false
+	return true
 }
