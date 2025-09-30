@@ -41,15 +41,15 @@ func (t *Term) Set(orig *pair.Pair, flag flag.Flag) {
 	t.screen.SetContent(orig.X, orig.Y, flag.Rune(), nil, flag.Style())
 }
 
-// SetRender writes a two-dimensional Flag buffer to the Term's display.
+// SetRender writes a double-spaced Flag buffer to the Term's display.
 func (t *Term) SetRender(flags [][]flag.Flag) {
 	wX, hY := t.screen.Size()
-	mX, mY := len(flags[0]), len(flags)
+	mX, mY := len(flags[0])*2, len(flags)
 	oX, oY := (wX-mX)/2, (hY-mY)/2
 
 	for y, line := range flags {
 		for x, flag := range line {
-			t.screen.SetContent(x+oX, y+oY, flag.Rune(), nil, flag.Style())
+			t.screen.SetContent((x*2)+oX, y+oY, flag.Rune(), nil, flag.Style())
 		}
 	}
 }
