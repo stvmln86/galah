@@ -36,6 +36,11 @@ func (t *Term) Close() {
 	t.screen.Fini()
 }
 
+// Poll blocks and returns an Event from the Term's display.
+func (t *Term) Poll() tcell.Event {
+	return t.screen.PollEvent()
+}
+
 // Set writes a Flag to the Term's display.
 func (t *Term) Set(orig *pair.Pair, flag flag.Flag) {
 	t.screen.SetContent(orig.X, orig.Y, flag.Rune(), nil, flag.Style())

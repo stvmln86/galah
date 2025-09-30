@@ -14,6 +14,10 @@ func TestClose(t *testing.T) {
 	// cannot test display
 }
 
+func TestPoll(t *testing.T) {
+	// cannot test display
+}
+
 func TestSet(t *testing.T) {
 	// cannot test display
 }
