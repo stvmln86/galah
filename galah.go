@@ -1,6 +1,8 @@
 package main
 
 import (
+	"math/rand"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/stvmln86/galah/galah/games/grid"
 	"github.com/stvmln86/galah/galah/games/tile"
@@ -10,27 +12,38 @@ import (
 	"github.com/stvmln86/galah/galah/terms/term"
 )
 
+/*
+TODOS:
+- change grid.New to take different X/Y co-ordinates.
+- add Pair.Random(), Pair.Sub(), Pair.SubXY().
+*/
+
 func main() {
 	// initialise globals
-	size := 15
+	size := 25
 	grid := grid.New(size)
 	term, err := term.New()
 	if err != nil {
 		panic(err)
 	}
 
+	// draw random walls on grid
+	for range size * 2 {
+		pair := pair.New(rand.Intn(size-1)+1, rand.Intn(size-1)+1)
+		grid.Set(pair, tile.New(" DD", wall.New("•WD")))
+	}
+
 	// draw border walls on grid
 	for _, pair := range plot.Rectangle(pair.New(0, 0), pair.New(size-1, size-1)) {
-		grid.Set(pair, tile.New(" DD", wall.New("·WD")))
+		grid.Set(pair, tile.New(" DD", wall.New("#WD")))
 	}
 
 loop:
 	for {
 		// calculate pairs
 		full := term.Size()
-		orig := pair.New((full.X-28)/2, (full.Y-13)/2)
-		head := orig.AddXY(0, -1)
-		foot := head.AddXY(0, 16)
+		head := pair.New((full.X-(size*2))/2, (full.Y-size)/2)
+		foot := head.AddXY(0, size+1)
 
 		// draw grid
 		term.Clear()
