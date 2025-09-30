@@ -6,7 +6,7 @@ import (
 	"github.com/stvmln86/galah/galah/terms/flag"
 )
 
-// Tile is a single two-dimensional location in the gameworld.
+// Tile is a two-dimensional location in the gameworld.
 type Tile struct {
 	Base  flag.Flag
 	Nodes []node.Node
