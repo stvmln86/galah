@@ -31,17 +31,20 @@ var Colours = map[rune]tcell.Color{
 
 // Back returns the Flag's background colour.
 func (f Flag) Back() tcell.Color {
-	return Colours[rune(f[2])]
+	runes := []rune(f)
+	return Colours[runes[2]]
 }
 
 // Fore returns the Flag's foreground colour.
 func (f Flag) Fore() tcell.Color {
-	return Colours[rune(f[1])]
+	runes := []rune(f)
+	return Colours[runes[1]]
 }
 
 // Rune returns the Flag's drawing rune.
 func (f Flag) Rune() rune {
-	return rune(f[0])
+	runes := []rune(f)
+	return runes[0]
 }
 
 // Style returns a TCell Style from the Flag's colours.
