@@ -1,11 +1,11 @@
-// Package wall implements the Wall type and methods.
+// Package wall implements the Wall Node type and methods.
 package wall
 
 import (
 	"github.com/stvmln86/galah/galah/terms/flag"
 )
 
-// Wall is a solid static wall in the gameworld.
+// Wall is a static Node that cannot move or be moved through.
 type Wall struct {
 	flag flag.Flag
 }
@@ -16,11 +16,11 @@ func New(flag flag.Flag) *Wall {
 }
 
 // Flag returns the Wall's drawable Flag.
-func (w *Wall) Flag() flag.Flag {
-	return w.flag
+func (n *Wall) Flag() flag.Flag {
+	return n.flag
 }
 
 // Wall returns true if the Wall cannot be moved through.
-func (w *Wall) Wall() bool {
+func (n *Wall) Wall() bool {
 	return true
 }
