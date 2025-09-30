@@ -7,40 +7,32 @@ import (
 	"github.com/stvmln86/galah/galah/terms/flag"
 )
 
-// Grid is a two-dimensional array of Tiles representing a gameworld.
+// Grid is an array of Tiles representing a gameworld.
 type Grid struct {
-	Tiles [][]*tile.Tile
+	Size  int
+	Tiles []*tile.Tile
 }
 
 // New returns a new Grid.
 func New(size int) *Grid {
-	var tiles [][]*tile.Tile
-	for range size {
-		tiles = append(tiles, make([]*tile.Tile, size))
+	var tiles []*tile.Tile
+	for range size * size {
+		tiles = append(tiles, tile.New(" DD"))
 	}
 
-	return &Grid{tiles}
+	return &Grid{size, tiles}
 }
 
 // Get returns a Tile from a location in the Grid.
 func (g *Grid) Get(orig *pair.Pair) *tile.Tile {
-	return g.Tiles[orig.Y][orig.X]
+	return g.Tiles[orig.Y*g.Size+orig.X]
 }
 
-// Render returns the Grid as a two-dimensional Flag buffer.
-func (g *Grid) Render() [][]flag.Flag {
-	var flags [][]flag.Flag
-
-	for _, line := range g.Tiles {
-		flags = append(flags, make([]flag.Flag, 0))
-
-		for _, tile := range line {
-			if tile == nil {
-				flags[len(flags)-1] = append(flags[len(flags)-1], " DD")
-			} else {
-				flags[len(flags)-1] = append(flags[len(flags)-1], tile.Flag())
-			}
-		}
+// Render returns the Grid as a Flag buffer.
+func (g *Grid) Render() []flag.Flag {
+	var flags []flag.Flag
+	for _, tile := range g.Tiles {
+		flags = append(flags, tile.Flag())
 	}
 
 	return flags
@@ -48,5 +40,5 @@ func (g *Grid) Render() [][]flag.Flag {
 
 // Set sets a Tile into a location in the Grid.
 func (g *Grid) Set(dest *pair.Pair, tile *tile.Tile) {
-	g.Tiles[dest.Y][dest.X] = tile
+	g.Tiles[dest.Y*g.Size+dest.X] = tile
 }

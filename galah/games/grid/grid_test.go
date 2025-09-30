@@ -16,34 +16,31 @@ var (
 func TestNew(t *testing.T) {
 	// success
 	grid := New(3)
-	assert.Equal(t, [][]*tile.Tile{
-		{nil, nil, nil},
-		{nil, nil, nil},
-		{nil, nil, nil},
-	}, grid.Tiles)
+	assert.Equal(t, 3, grid.Size)
+	assert.Len(t, grid.Tiles, 9)
 }
 
 func TestGet(t *testing.T) {
 	// setup
 	grid := New(3)
-	grid.Tiles[0][0] = mockTile
+	grid.Tiles[4] = mockTile
 
 	// success
-	tile := grid.Get(pair.New(0, 0))
+	tile := grid.Get(pair.New(1, 1))
 	assert.Equal(t, mockTile, tile)
 }
 
 func TestRender(t *testing.T) {
 	// setup
 	grid := New(3)
-	grid.Tiles[0][0] = mockTile
+	grid.Tiles[4] = mockTile
 
 	// success
 	flags := grid.Render()
-	assert.Equal(t, [][]flag.Flag{
-		{"tWK", " DD", " DD"},
-		{" DD", " DD", " DD"},
-		{" DD", " DD", " DD"},
+	assert.Equal(t, []flag.Flag{
+		" DD", " DD", " DD",
+		" DD", "tWK", " DD",
+		" DD", " DD", " DD",
 	}, flags)
 }
 
@@ -52,6 +49,6 @@ func TestSet(t *testing.T) {
 	grid := New(3)
 
 	// success
-	grid.Set(pair.New(0, 0), mockTile)
-	assert.Equal(t, mockTile, grid.Tiles[0][0])
+	grid.Set(pair.New(1, 1), mockTile)
+	assert.Equal(t, mockTile, grid.Tiles[4])
 }
