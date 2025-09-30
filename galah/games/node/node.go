@@ -1,7 +1,9 @@
 // Package node implements the Node interface and functions.
 package node
 
-import "flag"
+import (
+	"github.com/stvmln86/galah/galah/terms/flag"
+)
 
 // Node is a single abstract entity in the gameworld.
 type Node interface {

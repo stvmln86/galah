@@ -19,7 +19,7 @@ func (n *Mock) Flag() flag.Flag {
 	return n.flag
 }
 
-// Wall returns true if the Wall cannot be moved through.
+// Wall returns true if the Mock cannot be moved through.
 func (n *Mock) Wall() bool {
 	return n.wall
 }
