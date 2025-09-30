@@ -60,7 +60,7 @@ loop:
 
 		// draw grid
 		term.Clear()
-		term.SetRender(grid.Render())
+		term.SetGrid(grid)
 		term.SetStringPad(head, "header", size*2, " BD")
 		term.SetStringPad(foot, "footer", size*2, " GD")
 		term.Show()

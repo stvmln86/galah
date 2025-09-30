@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
+	"github.com/stvmln86/galah/galah/games/grid"
 	"github.com/stvmln86/galah/galah/maths/pair"
 	"github.com/stvmln86/galah/galah/terms/flag"
 )
@@ -48,16 +49,15 @@ func (t *Term) Set(orig *pair.Pair, flag flag.Flag) {
 	t.screen.SetContent(orig.X, orig.Y, flag.Rune(), nil, flag.Style())
 }
 
-// SetRender writes a double-spaced Flag buffer to the Term's display.
-func (t *Term) SetRender(flags [][]flag.Flag) {
+// SetRender writes a rendered Grid to the Term's display.
+func (t *Term) SetGrid(grid *grid.Grid) {
 	wX, hY := t.screen.Size()
-	mX, mY := len(flags[0])*2, len(flags)
+	mX, mY := grid.Size*2, grid.Size
 	oX, oY := (wX-mX)/2, (hY-mY)/2
 
-	for y, line := range flags {
-		for x, flag := range line {
-			t.screen.SetContent((x*2)+oX, y+oY, flag.Rune(), nil, flag.Style())
-		}
+	for i, flag := range grid.Render() {
+		x, y := i%grid.Size, i/grid.Size
+		t.screen.SetContent((x*2)+oX, y+oY, flag.Rune(), nil, flag.Style())
 	}
 }
 
