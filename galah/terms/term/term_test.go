@@ -34,6 +34,10 @@ func TestSetString(t *testing.T) {
 	// cannot test display
 }
 
+func TestSetStringPad(t *testing.T) {
+	// cannot test display
+}
+
 func TestSize(t *testing.T) {
 	// cannot test display
 }

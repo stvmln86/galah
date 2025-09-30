@@ -1,8 +1,7 @@
 package main
 
 import (
-	"time"
-
+	"github.com/gdamore/tcell/v2"
 	"github.com/stvmln86/galah/galah/games/grid"
 	"github.com/stvmln86/galah/galah/games/tile"
 	"github.com/stvmln86/galah/galah/maths/pair"
@@ -13,23 +12,47 @@ import (
 
 func main() {
 	// initialise globals
-	grid := grid.New(13)
-	term, _ := term.New()
-
-	// initialise gameworld objects
-	wall := wall.New("#WD")
-	for _, pair := range plot.Rectangle(pair.New(0, 0), pair.New(12, 12)) {
-		grid.Set(pair, tile.New(" DD", wall))
+	size := 15
+	grid := grid.New(size)
+	term, err := term.New()
+	if err != nil {
+		panic(err)
 	}
 
-	// draw grid
-	term.Clear()
-	term.SetRender(grid.Render())
-	term.SetString(pair.New(0, 1), "hello world", " BD")
-	term.Show()
+	// draw border walls on grid
+	for _, pair := range plot.Rectangle(pair.New(0, 0), pair.New(size-1, size-1)) {
+		grid.Set(pair, tile.New(" DD", wall.New("·WD")))
+	}
 
-	// sleep and quit
-	time.Sleep(3 * time.Second)
+loop:
+	for {
+		// calculate pairs
+		full := term.Size()
+		orig := pair.New((full.X-28)/2, (full.Y-13)/2)
+		head := orig.AddXY(0, -1)
+		foot := head.AddXY(0, 16)
+
+		// draw grid
+		term.Clear()
+		term.SetRender(grid.Render())
+		term.SetStringPad(head, "header", size*2, " BD")
+		term.SetStringPad(foot, "footer", size*2, " GD")
+		term.Show()
+
+		// run event poll
+		switch evnt := term.Poll().(type) {
+		case *tcell.EventKey:
+			switch evnt.Key() {
+			case tcell.KeyEscape:
+				break loop
+			}
+
+		case *tcell.EventResize:
+			continue loop
+		}
+	}
+
+	// close screen
 	term.Clear()
 	term.Close()
 }

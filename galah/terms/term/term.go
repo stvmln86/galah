@@ -2,6 +2,8 @@
 package term
 
 import (
+	"strings"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/stvmln86/galah/galah/maths/pair"
 	"github.com/stvmln86/galah/galah/terms/flag"
@@ -71,6 +73,13 @@ func (t *Term) SetString(orig *pair.Pair, text string, flag flag.Flag) {
 	for i, char := range text {
 		t.screen.SetContent(orig.X+i, orig.Y, char, nil, flag.Style())
 	}
+}
+
+// SetStringPad writes a centered string to the Term's display.
+func (t *Term) SetStringPad(orig *pair.Pair, text string, size int, flag flag.Flag) {
+	init := (size - len(text)) / 2
+	pads := strings.Repeat(" ", init)
+	t.SetString(orig, pads+text+pads, flag)
 }
 
 // Size returns the Term's maximum dimension.
