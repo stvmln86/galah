@@ -33,3 +33,13 @@ func TestRune(t *testing.T) {
 	rune := flag.Rune()
 	assert.Equal(t, '#', rune)
 }
+
+func TestStyle(t *testing.T) {
+	// setup
+	flag := Flag("#WK")
+	want := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
+
+	// success
+	styl := flag.Style()
+	assert.Equal(t, want, styl)
+}

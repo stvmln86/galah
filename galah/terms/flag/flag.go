@@ -43,3 +43,8 @@ func (f Flag) Fore() tcell.Color {
 func (f Flag) Rune() rune {
 	return rune(f[0])
 }
+
+// Style returns a TCell Style from the Flag's colours.
+func (f Flag) Style() tcell.Style {
+	return tcell.StyleDefault.Foreground(f.Fore()).Background(f.Back())
+}
