@@ -33,3 +33,11 @@ func TestSetPlot(t *testing.T) {
 func TestSetString(t *testing.T) {
 	// cannot test display
 }
+
+func TestSize(t *testing.T) {
+	// cannot test display
+}
+
+func TestShow(t *testing.T) {
+	// cannot test display
+}

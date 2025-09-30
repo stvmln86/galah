@@ -73,6 +73,12 @@ func (t *Term) SetString(orig *pair.Pair, text string, flag flag.Flag) {
 	}
 }
 
+// Size returns the Term's maximum dimension.
+func (t *Term) Size() *pair.Pair {
+	wX, hY := t.screen.Size()
+	return pair.New(wX-1, hY-1)
+}
+
 // Show flips the Term's display.
 func (t *Term) Show() {
 	t.screen.Show()
