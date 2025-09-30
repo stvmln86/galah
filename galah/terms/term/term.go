@@ -82,10 +82,10 @@ func (t *Term) SetStringPad(orig *pair.Pair, text string, size int, flag flag.Fl
 	t.SetString(orig, pads+text+pads, flag)
 }
 
-// Size returns the Term's maximum dimension.
+// Size returns the Term's maximum dimensions.
 func (t *Term) Size() *pair.Pair {
 	wX, hY := t.screen.Size()
-	return pair.New(wX-1, hY-1)
+	return pair.New(wX, hY)
 }
 
 // Show flips the Term's display.

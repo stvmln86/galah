@@ -14,8 +14,8 @@ import (
 
 /*
 TODOS:
-- change grid.New to take different X/Y co-ordinates.
 - add Pair.Random(), Pair.Sub(), Pair.SubXY().
+- add grid.SetGen(pairs, func() *tile.Tile { tile.New(" DD", wall.New("#WD")) })
 */
 
 func main() {
@@ -42,7 +42,8 @@ loop:
 	for {
 		// calculate pairs
 		full := term.Size()
-		head := pair.New((full.X-(size*2))/2, (full.Y-size)/2)
+		orig := pair.New((full.X-(size*2))/2, (full.Y-size)/2)
+		head := orig.AddXY(0, -1)
 		foot := head.AddXY(0, size+1)
 
 		// draw grid
@@ -66,6 +67,5 @@ loop:
 	}
 
 	// close screen
-	term.Clear()
 	term.Close()
 }
