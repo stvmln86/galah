@@ -39,7 +39,7 @@ func TestCell(t *testing.T) {
 
 func TestNode(t *testing.T) {
 	// setup
-	tile := New(xNodeCell, xNode)
+	tile := New(xCell, xNode)
 
 	// success
 	node := tile.Node()
@@ -48,7 +48,7 @@ func TestNode(t *testing.T) {
 
 func TestOpen(t *testing.T) {
 	// setup
-	tile := New(xNodeCell, xNode)
+	tile := New(xCell, xNode)
 
 	// success - with node
 	open := tile.Open()
@@ -64,7 +64,7 @@ func TestOpen(t *testing.T) {
 
 func TestSetNode(t *testing.T) {
 	// setup
-	tile := New(xNodeCell, nil)
+	tile := New(xCell, nil)
 
 	// success
 	tile.SetNode(xNode)

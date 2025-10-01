@@ -41,5 +41,5 @@ func TestOpen(t *testing.T) {
 
 	// success
 	open := node.Open()
-	assert.Equal(t, false, open)
+	assert.False(t, open)
 }
