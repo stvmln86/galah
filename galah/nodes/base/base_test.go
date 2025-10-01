@@ -9,15 +9,15 @@ import (
 
 var (
 	mockCell = cell.New('A', 'B')
-	mockNode = New(mockCell, "test", true)
+	mockNode = New(mockCell, "test", false)
 )
 
 func TestNew(t *testing.T) {
 	// success
-	node := New(mockCell, "test", true)
+	node := New(mockCell, "test", false)
 	assert.Equal(t, mockCell, node.cell)
 	assert.Equal(t, "test", node.name)
-	assert.Equal(t, true, node.open)
+	assert.Equal(t, false, node.open)
 }
 
 func TestCell(t *testing.T) {
@@ -35,5 +35,5 @@ func TestName(t *testing.T) {
 func TestOpen(t *testing.T) {
 	// success
 	open := mockNode.Open()
-	assert.Equal(t, true, open)
+	assert.Equal(t, false, open)
 }
