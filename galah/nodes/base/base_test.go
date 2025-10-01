@@ -7,33 +7,39 @@ import (
 	"github.com/stvmln86/galah/galah/terms/cell"
 )
 
-var (
-	mockCell = cell.New('A', 'B')
-	mockNode = New(mockCell, "test", false)
-)
+var xCell = cell.New('A', 'B')
 
 func TestNew(t *testing.T) {
 	// success
-	node := New(mockCell, "test", false)
-	assert.Equal(t, mockCell, node.cell)
+	node := New(xCell, "test", false)
+	assert.Equal(t, xCell, node.cell)
 	assert.Equal(t, "test", node.name)
 	assert.Equal(t, false, node.open)
 }
 
 func TestCell(t *testing.T) {
+	// setup
+	node := New(xCell, "test", false)
+
 	// success
-	cell := mockNode.Cell()
-	assert.Equal(t, mockCell, cell)
+	cell := node.Cell()
+	assert.Equal(t, xCell, cell)
 }
 
 func TestName(t *testing.T) {
+	// setup
+	node := New(xCell, "test", false)
+
 	// success
-	name := mockNode.Name()
+	name := node.Name()
 	assert.Equal(t, "test", name)
 }
 
 func TestOpen(t *testing.T) {
+	// setup
+	node := New(xCell, "test", false)
+
 	// success
-	open := mockNode.Open()
+	open := node.Open()
 	assert.Equal(t, false, open)
 }

@@ -7,10 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	mockCell = New('A', 'B')
-)
-
 func TestNew(t *testing.T) {
 	// success
 	cell := New('A', 'B')
@@ -19,14 +15,20 @@ func TestNew(t *testing.T) {
 }
 
 func TestRune(t *testing.T) {
+	// setup
+	cell := New('A', 'B')
+
 	// success
-	rune := mockCell.Rune()
+	rune := cell.Rune()
 	assert.Equal(t, 'A', rune)
 }
 
 func TestStyle(t *testing.T) {
+	// setup
+	cell := New('A', 'B')
+
 	// success
-	styl := mockCell.Style()
+	styl := cell.Style()
 	fore, back, attr := styl.Decompose()
 	assert.Equal(t, tcell.ColorBlue, fore)
 	assert.Equal(t, tcell.ColorDefault, back)

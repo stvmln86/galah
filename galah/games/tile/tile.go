@@ -19,6 +19,10 @@ func New(cell *cell.Cell, node node.Node) *Tile {
 
 // Cell returns the Tile's Cell.
 func (t *Tile) Cell() *cell.Cell {
+	if t.node != nil {
+		return t.node.Cell()
+	}
+
 	return t.cell
 }
 

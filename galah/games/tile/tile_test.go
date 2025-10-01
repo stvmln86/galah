@@ -9,40 +9,53 @@ import (
 )
 
 var (
-	mockCell = cell.New('A', 'B')
-	mockNode = base.New(mockCell, "test", false)
-	mockTile = func() *Tile { return New(mockCell, mockNode) }
+	xCell     = cell.New('A', 'B')
+	xNodeCell = cell.New('N', 'R')
+	xNode     = base.New(xNodeCell, "test", false)
 )
 
 func TestNew(t *testing.T) {
 	// success
-	tile := New(mockCell, mockNode)
-	assert.Equal(t, mockCell, tile.cell)
-	assert.Equal(t, mockNode, tile.node)
+	tile := New(xCell, xNode)
+	assert.Equal(t, xCell, tile.cell)
+	assert.Equal(t, xNode, tile.node)
 }
 
 func TestCell(t *testing.T) {
-	// success
-	cell := mockTile().Cell()
-	assert.Equal(t, mockCell, cell)
+	// setup
+	tile := New(xCell, xNode)
+
+	// success - with node
+	cell := tile.Cell()
+	assert.Equal(t, xNodeCell, cell)
+
+	// setup
+	tile = New(xCell, nil)
+
+	// success - without node
+	cell = tile.Cell()
+	assert.Equal(t, xCell, cell)
 }
 
 func TestNode(t *testing.T) {
+	// setup
+	tile := New(xNodeCell, xNode)
+
 	// success
-	node := mockTile().Node()
-	assert.Equal(t, mockNode, node)
+	node := tile.Node()
+	assert.Equal(t, xNode, node)
 }
 
 func TestOpen(t *testing.T) {
 	// setup
-	tile := mockTile()
+	tile := New(xNodeCell, xNode)
 
 	// success - with node
 	open := tile.Open()
 	assert.False(t, open)
 
 	// setup
-	tile.node = nil
+	tile = New(xCell, nil)
 
 	// success - without node
 	open = tile.Open()
@@ -51,10 +64,9 @@ func TestOpen(t *testing.T) {
 
 func TestSetNode(t *testing.T) {
 	// setup
-	tile := mockTile()
-	tile.node = nil
+	tile := New(xNodeCell, nil)
 
 	// success
-	tile.SetNode(mockNode)
-	assert.Equal(t, mockNode, tile.node)
+	tile.SetNode(xNode)
+	assert.Equal(t, xNode, tile.node)
 }
