@@ -9,12 +9,12 @@ import (
 
 var (
 	mockCell = cell.New('A', 'B')
-	mockNode = New('A', 'B', "test", true)
+	mockNode = New(mockCell, "test", true)
 )
 
 func TestNew(t *testing.T) {
 	// success
-	node := New('A', 'B', "test", true)
+	node := New(mockCell, "test", true)
 	assert.Equal(t, mockCell, node.cell)
 	assert.Equal(t, "test", node.name)
 	assert.Equal(t, true, node.open)

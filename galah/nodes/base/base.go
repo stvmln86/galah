@@ -13,8 +13,7 @@ type BaseNode struct {
 }
 
 // New returns a new BaseNode.
-func New(rune, tone rune, name string, open bool) *BaseNode {
-	cell := cell.New(rune, tone)
+func New(cell *cell.Cell, name string, open bool) *BaseNode {
 	return &BaseNode{cell, name, open}
 }
 

@@ -7,8 +7,8 @@ import (
 
 // Cell is a drawable rune with a foreground colour.
 type Cell struct {
-	Rune rune
-	Tone rune
+	rune rune
+	tone rune
 }
 
 // tones is a map of all defined terminal colours.
@@ -37,7 +37,12 @@ func New(rune, tone rune) *Cell {
 	return &Cell{rune, tone}
 }
 
+// Rune returns the Char's drawable rune.
+func (c *Cell) Rune() rune {
+	return c.rune
+}
+
 // Style returns the Char's terminal style.
 func (c *Cell) Style() tcell.Style {
-	return tcell.StyleDefault.Foreground(tones[c.Tone])
+	return tcell.StyleDefault.Foreground(tones[c.tone])
 }
