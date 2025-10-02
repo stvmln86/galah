@@ -76,3 +76,13 @@ func TestSet(t *testing.T) {
 	// success - out of bounds
 	grid.Set(-1, -1, mockNode)
 }
+
+func TestSetFunc(t *testing.T) {
+	// setup
+	grid := New(2, mockFunc)
+	nfun := func() node.Node { return mockNode }
+
+	// success
+	grid.SetFunc([][]int{{1, 1}}, nfun)
+	assert.Equal(t, mockNode, grid.Nodes[3])
+}

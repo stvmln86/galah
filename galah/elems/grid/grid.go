@@ -54,3 +54,10 @@ func (g *Grid) Set(x, y int, node node.Node) {
 
 	g.Nodes[x*g.Size+y] = node
 }
+
+// SetFunc sets a Node function at multiple locations in the Grid.
+func (g *Grid) SetFunc(pairs [][]int, nfun node.Function) {
+	for _, pair := range pairs {
+		g.Set(pair[0], pair[1], nfun())
+	}
+}
