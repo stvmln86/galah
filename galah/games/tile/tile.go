@@ -6,7 +6,7 @@ import (
 	"github.com/stvmln86/galah/galah/terms/cell"
 )
 
-// Tile is a single inhabitable location in a Grid.
+// Tile is a single inhabitable location in a gameworld.
 type Tile struct {
 	cell *cell.Cell
 	node node.Node
