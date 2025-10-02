@@ -21,6 +21,19 @@ func TestNew(t *testing.T) {
 	assert.Equal(t, []node.Node{nil, nil, nil, nil}, grid.Nodes)
 }
 
+func TestIn(t *testing.T) {
+	// setup
+	grid := New(2)
+
+	// success - in bounds
+	okay := grid.In(1, 1)
+	assert.True(t, okay)
+
+	// success - out of bounds
+	okay = grid.In(-1, -1)
+	assert.False(t, okay)
+}
+
 func TestCells(t *testing.T) {
 	// setup
 	grid := New(2)
@@ -50,11 +63,9 @@ func TestSetNode(t *testing.T) {
 	grid := New(2)
 
 	// success - in bounds
-	okay := grid.SetNode(1, 1, xNode)
+	grid.SetNode(1, 1, xNode)
 	assert.Equal(t, xNode, grid.Nodes[3])
-	assert.True(t, okay)
 
 	// success - out of bounds
-	okay = grid.SetNode(-1, -1, xNode)
-	assert.False(t, okay)
+	grid.SetNode(-1, -1, xNode)
 }

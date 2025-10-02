@@ -34,19 +34,23 @@ func (g *Grid) Cells() []*cell.Cell {
 
 // GetNode returns a Node in the Grid.
 func (g *Grid) GetNode(x, y int) node.Node {
-	if x < 0 || x >= g.Size || y < 0 || y >= g.Size {
+	if !g.In(x, y) {
 		return nil
 	}
 
 	return g.Nodes[y*g.Size+x]
 }
 
+// In returns true if a co-ordinate pair is inside the Grid.
+func (g *Grid) In(x, y int) bool {
+	return x >= 0 && x < g.Size && y >= 0 && y < g.Size
+}
+
 // SetNode sets a Node in the Grid.
-func (g *Grid) SetNode(x, y int, t node.Node) bool {
-	if x < 0 || x >= g.Size || y < 0 || y >= g.Size {
-		return false
+func (g *Grid) SetNode(x, y int, t node.Node) {
+	if !g.In(x, y) {
+		return
 	}
 
 	g.Nodes[y*g.Size+x] = t
-	return true
 }
