@@ -8,7 +8,9 @@ import (
 	"github.com/stvmln86/galah/galah/tools/tone"
 )
 
-var mockIcon = baseicon.New('i', tone.Blue)
+var (
+	mockIcon = baseicon.New('i', tone.Blue)
+)
 
 func TestNew(t *testing.T) {
 	// success

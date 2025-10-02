@@ -1,7 +1,9 @@
 // Package poll implements terminal event polling functions and constants.
 package poll
 
-import "github.com/gdamore/tcell/v2"
+import (
+	"github.com/gdamore/tcell/v2"
+)
 
 // binds is a map of all defined special key presses.
 var binds = map[tcell.Key]string{

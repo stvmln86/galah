@@ -1,7 +1,9 @@
 // Package baseicon implements the BaseIcon type and methods.
 package baseicon
 
-import "github.com/stvmln86/galah/galah/tools/tone"
+import (
+	"github.com/stvmln86/galah/galah/tools/tone"
+)
 
 // BaseIcon is a basic implementation of an Icon.
 type BaseIcon struct {
