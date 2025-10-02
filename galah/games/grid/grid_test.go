@@ -32,7 +32,7 @@ func TestCells(t *testing.T) {
 func TestGetTile(t *testing.T) {
 	// setup
 	grid := New(3, nil)
-	grid.Tiles[3] = xTile
+	grid.Tiles[4] = xTile
 
 	// success - in bounds
 	tile := grid.GetTile(1, 1)
@@ -49,7 +49,7 @@ func TestSetTile(t *testing.T) {
 
 	// success - in bounds
 	okay := grid.SetTile(1, 1, xTile)
-	assert.Equal(t, xTile, grid.Tiles[3])
+	assert.Equal(t, xTile, grid.Tiles[4])
 	assert.True(t, okay)
 
 	// success - out of bounds

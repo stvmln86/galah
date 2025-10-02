@@ -38,7 +38,7 @@ func (g *Grid) GetTile(x, y int) *tile.Tile {
 		return nil
 	}
 
-	return g.Tiles[y*g.Size+x-1]
+	return g.Tiles[y*g.Size+x]
 }
 
 // SetTile sets a Tile in the Grid.
@@ -47,6 +47,6 @@ func (g *Grid) SetTile(x, y int, t *tile.Tile) bool {
 		return false
 	}
 
-	g.Tiles[y*g.Size+x-1] = t
+	g.Tiles[y*g.Size+x] = t
 	return true
 }
