@@ -1,7 +1,9 @@
-// Package icon implements the Icon interface and methods.
+// Package icon implements the Icon interface and functions.
 package icon
 
-import "github.com/gdamore/tcell/v2"
+import (
+	"github.com/gdamore/tcell/v2"
+)
 
 // Icon is an interface for terminal display characters.
 type Icon interface {
