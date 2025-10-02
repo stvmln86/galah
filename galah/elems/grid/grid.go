@@ -28,7 +28,7 @@ func (g *Grid) Get(x, y int) node.Node {
 		return nil
 	}
 
-	return g.Nodes[x*g.Size+y]
+	return g.Nodes[y*g.Size+x]
 }
 
 // Icons returns the Grid as a Node slice.
@@ -52,7 +52,7 @@ func (g *Grid) Set(x, y int, node node.Node) {
 		return
 	}
 
-	g.Nodes[x*g.Size+y] = node
+	g.Nodes[y*g.Size+x] = node
 }
 
 // SetFunc sets a Node function at multiple locations in the Grid.

@@ -21,7 +21,7 @@ var (
 
 	// Node definitions.
 	nodeFloor  = func() node.Node { return basenode.New(iconFloor, "floor", true) }
-	nodeWall   = func() node.Node { return basenode.New(iconWall, "wall", true) }
+	nodeWall   = func() node.Node { return basenode.New(iconWall, "wall", false) }
 	nodePlayer = basenode.New(iconPlayer, "player", true)
 
 	// Global variable definitions.
@@ -56,6 +56,14 @@ loop:
 			break loop
 		case "resize":
 			continue loop
+		case "up":
+			nbor := plot.Neighbours(playerX, playerY)[0]
+			node := mainGrid.Get(nbor[0], nbor[1])
+			if mainGrid.In(nbor[0], nbor[1]) && node.Open() {
+				mainGrid.Set(nbor[0], nbor[1], nodePlayer)
+				mainGrid.Set(playerX, playerY, node)
+				playerX, playerY = nbor[0], nbor[1]
+			}
 		}
 	}
 
