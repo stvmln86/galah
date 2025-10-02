@@ -2,51 +2,51 @@
 package grid
 
 import (
-	"github.com/stvmln86/galah/galah/games/tile"
+	"github.com/stvmln86/galah/galah/games/node"
 	"github.com/stvmln86/galah/galah/terms/cell"
 )
 
-// Grid is a grid of Tiles representing a gameworld.
+// Grid is a grid of Nodes representing a gameworld.
 type Grid struct {
 	Size  int
-	Tiles []*tile.Tile
+	Nodes []node.Node
 }
 
 // New returns a new Grid.
-func New(size int, dflt *tile.Tile) *Grid {
-	var tiles = make([]*tile.Tile, size*size)
-	for i := range size * size {
-		tiles[i] = dflt
-	}
-
-	return &Grid{size, tiles}
+func New(size int) *Grid {
+	var nodes = make([]node.Node, size*size)
+	return &Grid{size, nodes}
 }
 
 // Cells returns the Grid as a Cell slice.
 func (g *Grid) Cells() []*cell.Cell {
 	var cells = make([]*cell.Cell, g.Size*g.Size)
 	for i := range cells {
-		cells[i] = g.Tiles[i].Cell()
+		if node := g.Nodes[i]; node != nil {
+			cells[i] = g.Nodes[i].Cell()
+		} else {
+			cells[i] = nil
+		}
 	}
 
 	return cells
 }
 
-// GetTile returns a Tile in the Grid.
-func (g *Grid) GetTile(x, y int) *tile.Tile {
+// GetNode returns a Node in the Grid.
+func (g *Grid) GetNode(x, y int) node.Node {
 	if x < 0 || x >= g.Size || y < 0 || y >= g.Size {
 		return nil
 	}
 
-	return g.Tiles[y*g.Size+x]
+	return g.Nodes[y*g.Size+x]
 }
 
-// SetTile sets a Tile in the Grid.
-func (g *Grid) SetTile(x, y int, t *tile.Tile) bool {
+// SetNode sets a Node in the Grid.
+func (g *Grid) SetNode(x, y int, t node.Node) bool {
 	if x < 0 || x >= g.Size || y < 0 || y >= g.Size {
 		return false
 	}
 
-	g.Tiles[y*g.Size+x] = t
+	g.Nodes[y*g.Size+x] = t
 	return true
 }

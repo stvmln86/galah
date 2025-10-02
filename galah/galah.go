@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/stvmln86/galah/galah/games/grid"
-	"github.com/stvmln86/galah/galah/games/tile"
 	"github.com/stvmln86/galah/galah/nodes/base"
 	"github.com/stvmln86/galah/galah/nodes/wall"
 	"github.com/stvmln86/galah/galah/terms/cell"
@@ -35,20 +34,15 @@ func main() {
 	try(scrn, scrn.Init())
 
 	// initialise grid
-	grid := grid.New(20, nil)
-
-	// generate floor on grid
-	for _, pairs := range plot.Block(0, 0, 19, 19) {
-		grid.SetTile(pairs[0], pairs[1], tile.New(cellNone, nil))
-	}
+	grid := grid.New(20)
 
 	// generate walls on grid
 	for _, pairs := range plot.Rectangle(0, 0, 19, 19) {
-		grid.SetTile(pairs[0], pairs[1], tile.New(cellWall, nodeWall))
+		grid.SetNode(pairs[0], pairs[1], nodeWall)
 	}
 
 	// generate entities on grid
-	grid.GetTile(10, 10).SetNode(nodePlyr)
+	grid.SetNode(10, 10, nodePlyr)
 
 	// enter main loop
 loop:
@@ -61,8 +55,10 @@ loop:
 
 		// draw grid
 		for i, cell := range grid.Cells() {
-			x, y := i%grid.Size, i/grid.Size
-			scrn.SetContent((x*2)+oX, y+oY, cell.Rune(), nil, cell.Style())
+			if cell != nil {
+				x, y := i%grid.Size, i/grid.Size
+				scrn.SetContent((x*2)+oX, y+oY, cell.Rune(), nil, cell.Style())
+			}
 		}
 
 		// draw text

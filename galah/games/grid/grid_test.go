@@ -4,55 +4,57 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stvmln86/galah/galah/games/tile"
+	"github.com/stvmln86/galah/galah/games/node"
+	"github.com/stvmln86/galah/galah/nodes/base"
 	"github.com/stvmln86/galah/galah/terms/cell"
 )
 
 var (
 	xCell = cell.New('A', 'B')
-	xTile = tile.New(xCell, nil)
+	xNode = base.New(xCell, "test", false)
 )
 
 func TestNew(t *testing.T) {
 	// success
-	grid := New(1, xTile)
-	assert.Equal(t, 1, grid.Size)
-	assert.Equal(t, []*tile.Tile{xTile}, grid.Tiles)
+	grid := New(2)
+	assert.Equal(t, 2, grid.Size)
+	assert.Equal(t, []node.Node{nil, nil, nil, nil}, grid.Nodes)
 }
 
 func TestCells(t *testing.T) {
 	// setup
-	grid := New(1, xTile)
+	grid := New(2)
+	grid.SetNode(1, 1, xNode)
 
 	// success
 	cells := grid.Cells()
-	assert.Equal(t, []*cell.Cell{xCell}, cells)
+	assert.Equal(t, []*cell.Cell{nil, nil, nil, xCell}, cells)
 }
 
-func TestGetTile(t *testing.T) {
+func TestGetNode(t *testing.T) {
 	// setup
-	grid := New(3, nil)
-	grid.Tiles[4] = xTile
+	grid := New(2)
+	grid.SetNode(1, 1, xNode)
 
 	// success - in bounds
-	tile := grid.GetTile(1, 1)
-	assert.Equal(t, xTile, tile)
+	node := grid.GetNode(1, 1)
+	assert.Equal(t, xNode, node)
 
 	// success - out of bounds
-	tile = grid.GetTile(-1, -1)
-	assert.Nil(t, tile)
+	node = grid.GetNode(-1, -1)
+	assert.Nil(t, node)
 }
 
-func TestSetTile(t *testing.T) {
+func TestSetNode(t *testing.T) {
 	// setup
-	grid := New(3, nil)
+	grid := New(2)
 
 	// success - in bounds
-	okay := grid.SetTile(1, 1, xTile)
-	assert.Equal(t, xTile, grid.Tiles[4])
+	okay := grid.SetNode(1, 1, xNode)
+	assert.Equal(t, xNode, grid.Nodes[3])
 	assert.True(t, okay)
 
 	// success - out of bounds
-	okay = grid.SetTile(-1, -1, xTile)
+	okay = grid.SetNode(-1, -1, xNode)
 	assert.False(t, okay)
 }
