@@ -10,20 +10,24 @@ import (
 )
 
 var (
-	xCell = cell.New('A', 'B')
-	xNode = base.New(xCell, "test", false)
+	mockNodeCell = cell.New('A', 'B')
+	mockBaseCell = cell.New(' ', 'D')
+	mockNode     = base.New(mockNodeCell, "test", false)
+	mockFunc     = func() node.Node {
+		return base.New(mockBaseCell, "", true)
+	}
 )
 
 func TestNew(t *testing.T) {
 	// success
-	grid := New(2)
+	grid := New(2, mockFunc)
 	assert.Equal(t, 2, grid.Size)
-	assert.Equal(t, []node.Node{nil, nil, nil, nil}, grid.Nodes)
+	assert.Len(t, grid.Nodes, 4)
 }
 
 func TestIn(t *testing.T) {
 	// setup
-	grid := New(2)
+	grid := New(2, mockFunc)
 
 	// success - in bounds
 	okay := grid.In(1, 1)
@@ -36,22 +40,22 @@ func TestIn(t *testing.T) {
 
 func TestCells(t *testing.T) {
 	// setup
-	grid := New(2)
-	grid.SetNode(1, 1, xNode)
+	grid := New(2, mockFunc)
+	grid.SetNode(1, 1, mockNode)
 
 	// success
 	cells := grid.Cells()
-	assert.Equal(t, []*cell.Cell{nil, nil, nil, xCell}, cells)
+	assert.Equal(t, []*cell.Cell{mockBaseCell, mockBaseCell, mockBaseCell, mockNodeCell}, cells)
 }
 
 func TestGetNode(t *testing.T) {
 	// setup
-	grid := New(2)
-	grid.SetNode(1, 1, xNode)
+	grid := New(2, mockFunc)
+	grid.SetNode(1, 1, mockNode)
 
 	// success - in bounds
 	node := grid.GetNode(1, 1)
-	assert.Equal(t, xNode, node)
+	assert.Equal(t, mockNode, node)
 
 	// success - out of bounds
 	node = grid.GetNode(-1, -1)
@@ -60,12 +64,12 @@ func TestGetNode(t *testing.T) {
 
 func TestSetNode(t *testing.T) {
 	// setup
-	grid := New(2)
+	grid := New(2, mockFunc)
 
 	// success - in bounds
-	grid.SetNode(1, 1, xNode)
-	assert.Equal(t, xNode, grid.Nodes[3])
+	grid.SetNode(1, 1, mockNode)
+	assert.Equal(t, mockNode, grid.Nodes[3])
 
 	// success - out of bounds
-	grid.SetNode(-1, -1, xNode)
+	grid.SetNode(-1, -1, nil)
 }

@@ -2,6 +2,8 @@
 package grid
 
 import (
+	"fmt"
+
 	"github.com/stvmln86/galah/galah/games/node"
 	"github.com/stvmln86/galah/galah/terms/cell"
 )
@@ -13,8 +15,12 @@ type Grid struct {
 }
 
 // New returns a new Grid.
-func New(size int) *Grid {
+func New(size int, nfun func() node.Node) *Grid {
 	var nodes = make([]node.Node, size*size)
+	for i := range nodes {
+		nodes[i] = nfun()
+	}
+
 	return &Grid{size, nodes}
 }
 
@@ -22,11 +28,8 @@ func New(size int) *Grid {
 func (g *Grid) Cells() []*cell.Cell {
 	var cells = make([]*cell.Cell, g.Size*g.Size)
 	for i := range cells {
-		if node := g.Nodes[i]; node != nil {
-			cells[i] = g.Nodes[i].Cell()
-		} else {
-			cells[i] = nil
-		}
+		fmt.Printf(">>> %d %#v\n", i, g.Nodes[i])
+		cells[i] = g.Nodes[i].Cell()
 	}
 
 	return cells

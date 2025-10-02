@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/stvmln86/galah/galah/games/grid"
+	"github.com/stvmln86/galah/galah/games/node"
 	"github.com/stvmln86/galah/galah/nodes/base"
 	"github.com/stvmln86/galah/galah/nodes/wall"
 	"github.com/stvmln86/galah/galah/terms/cell"
@@ -11,13 +12,17 @@ import (
 
 var (
 	// cells
-	cellNone = cell.New(' ', 'D')
+	cellBase = cell.New(' ', 'D')
 	cellPlyr = cell.New('@', 'B')
 	cellWall = cell.New('#', 'H')
 
 	// nodes
-	nodePlyr = base.New(cellPlyr, "player", true)
-	nodeWall = wall.New(cellWall, "wall")
+	nodePlayer   = base.New(cellPlyr, "player", true)
+	nodeBaseFunc = func() node.Node { return base.New(cellBase, "", true) }
+	nodeWallFunc = func() node.Node { return wall.New(cellWall, "wall") }
+
+	// variables
+	pX, pY = 10, 10
 )
 
 func try(scrn tcell.Screen, err error) {
@@ -34,15 +39,15 @@ func main() {
 	try(scrn, scrn.Init())
 
 	// initialise grid
-	grid := grid.New(20)
+	grid := grid.New(20, nodeBaseFunc)
 
 	// generate walls on grid
 	for _, pairs := range plot.Rectangle(0, 0, 19, 19) {
-		grid.SetNode(pairs[0], pairs[1], nodeWall)
+		grid.SetNode(pairs[0], pairs[1], nodeWallFunc())
 	}
 
 	// generate entities on grid
-	grid.SetNode(10, 10, nodePlyr)
+	grid.SetNode(pX, pY, nodePlayer)
 
 	// enter main loop
 loop:
@@ -75,6 +80,14 @@ loop:
 			switch e.Key() {
 			case tcell.KeyEscape:
 				break loop
+			case tcell.KeyUp:
+				dest := plot.Neighbours(pX, pY)[0]
+				node := grid.GetNode(dest[0], dest[1])
+				if grid.In(dest[0], dest[1]) && node.Open() {
+					grid.SetNode(dest[0], dest[1], nodePlayer)
+					grid.SetNode(pX, pY, node)
+					pX, pY = dest[0], dest[1]
+				}
 			}
 		}
 	}

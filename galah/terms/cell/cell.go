@@ -5,7 +5,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-// Cell is a drawable rune with a foreground colour.
+// Cell is a displayable rune with a foreground colour.
 type Cell struct {
 	rune rune
 	tone rune
@@ -37,7 +37,7 @@ func New(rune, tone rune) *Cell {
 	return &Cell{rune, tone}
 }
 
-// Rune returns the Char's drawable rune.
+// Rune returns the Char's displayable rune.
 func (c *Cell) Rune() rune {
 	return c.rune
 }
