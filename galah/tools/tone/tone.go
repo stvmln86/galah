@@ -5,6 +5,9 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
+// Colour is an alias for the TCell Color type.
+type Colour = tcell.Color
+
 // Default is the standard default terminal colour.
 const Default = tcell.ColorDefault
 

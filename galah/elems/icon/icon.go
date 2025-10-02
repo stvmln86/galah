@@ -3,6 +3,7 @@ package icon
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"github.com/stvmln86/galah/galah/tools/tone"
 )
 
 // Icon is an interface for terminal display characters.
@@ -11,7 +12,7 @@ type Icon interface {
 	Char() rune
 
 	// Tone returns the Icon's foreground colour.
-	Tone() tcell.Color
+	Tone() tone.Colour
 }
 
 // Style returns a terminal style from an Icon.
