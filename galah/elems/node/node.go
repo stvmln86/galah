@@ -16,3 +16,6 @@ type Node interface {
 	// Open returns true if the Node can be moved through.
 	Open() bool
 }
+
+// Function is a Node generator function.
+type Function func() Node
