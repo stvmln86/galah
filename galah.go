@@ -14,8 +14,8 @@ import (
 //                          part one · constants and globals                         //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// 1.1 · global math constants
-///////////////////////////////
+// 1.1 · mathematical constants
+////////////////////////////////
 
 // GridArea is the total area of the MainGrid.
 const GridArea = GridSize * GridSize
@@ -26,8 +26,17 @@ const GridEdge = GridSize - 1
 // GridSize is the height and width of the MainGrid.
 const GridSize = 100
 
-// 1.2 · global system objects
-///////////////////////////////
+// 1.2 · mathematical variables
+////////////////////////////////
+
+// PlayerX is the X co-ordinate of the Player.
+var PlayerX = GridEdge / 2
+
+// PlayerY is the Y co-ordinate of the Player.
+var PlayerY = GridEdge / 2
+
+// 1.2 · system variables
+//////////////////////////
 
 // MainGrid is the main gameworld grid.
 var MainGrid [GridArea]rune
@@ -110,7 +119,7 @@ func main() {
 	MainScreen, _ = tcell.NewScreen()
 	MainScreen.Init()
 
-	// Create and populated MainGrid.
+	// Create and populate MainGrid.
 	MainGrid = [GridArea]rune{}
 	for i := range GridArea {
 		x, y := i%GridSize, i/GridSize
@@ -118,6 +127,8 @@ func main() {
 		switch {
 		case x == 0 || x == GridEdge || y == 0 || y == GridEdge:
 			MainGrid[i] = '#'
+		case x == PlayerX && y == PlayerY:
+			MainGrid[i] = '@'
 		case rand.Intn(100) < 10:
 			MainGrid[i] = '·'
 		default:
