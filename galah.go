@@ -14,16 +14,28 @@ import (
 //                          part one · constants and globals                         //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// 1.1 · global system objects
+// 1.1 · global math constants
+///////////////////////////////
+
+// GridArea is the total area of the MainGrid.
+const GridArea = GridSize * GridSize
+
+// GridEdge is the furthest edge co-ordinate of the MainGrid.
+const GridEdge = GridSize - 1
+
+// GridSize is the height and width of the MainGrid.
+const GridSize = 100
+
+// 1.2 · global system objects
 ///////////////////////////////
 
 // MainGrid is the main gameworld grid.
-var MainGrid [100 * 100]rune
+var MainGrid [GridArea]rune
 
 // MainScreen is the main terminal display controller.
 var MainScreen tcell.Screen
 
-// 1.2 · terminal lookup tables
+// 1.3 · terminal lookup tables
 ////////////////////////////////
 
 // KeyNames is a map of all defined terminal keys and their names.
@@ -53,8 +65,8 @@ func DrawMainGrid(px, py int) {
 	for y := range hy {
 		for x := range wx / 2 {
 			gx, gy := sx+x, sy+y
-			if gx >= 0 && gx < 100 && gy >= 0 && gy < 100 {
-				rune := MainGrid[gy*100+gx]
+			if gx >= 0 && gx < GridSize && gy >= 0 && gy < GridSize {
+				rune := MainGrid[gy*GridSize+gx]
 				DrawRune(x*2, y, rune, RuneTones[rune])
 			}
 		}
@@ -83,10 +95,6 @@ func PollEvent() string {
 		} else {
 			return string(evnt.Rune())
 		}
-
-	case *tcell.EventResize:
-		return "resize"
-
 	default:
 		return "unknown"
 	}
@@ -98,28 +106,17 @@ func PollEvent() string {
 
 // main runs the main Galah program.
 func main() {
-	var err error
+	// Create and initialise MainScreen.
+	MainScreen, _ = tcell.NewScreen()
+	MainScreen.Init()
 
-	// Create MainScreen.
-	MainScreen, err = tcell.NewScreen()
-	if err != nil {
-		panic(err)
-	}
-
-	// Initialise MainScreen.
-	if err := MainScreen.Init(); err != nil {
-		panic(err)
-	}
-
-	// Create MainGrid.
-	MainGrid = [100 * 100]rune{}
-
-	// Populate MainGrid with runes.
-	for i := range MainGrid {
-		x, y := i%100, i/100
+	// Create and populated MainGrid.
+	MainGrid = [GridArea]rune{}
+	for i := range GridArea {
+		x, y := i%GridSize, i/GridSize
 
 		switch {
-		case x == 0 || x == 99 || y == 0 || y == 99:
+		case x == 0 || x == GridEdge || y == 0 || y == GridEdge:
 			MainGrid[i] = '#'
 		case rand.Intn(100) < 10:
 			MainGrid[i] = '·'
@@ -139,8 +136,6 @@ loop:
 
 		// Poll for event.
 		switch PollEvent() {
-		case "resize":
-			continue loop
 		case "q":
 			break loop
 		}
